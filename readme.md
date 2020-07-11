@@ -3,7 +3,7 @@
 Simples chat real-time feito seguindo o tutorial da RocketSeat 🚀.
 
 ## 🖥 Interface
-<br><img src="https://github.com/enzocsantos18/chat/blob/master/chat.gif" height="400" width="auto" ><br>
+<br><img src="https://github.com/enzocsantos18/chat/blob/master/chat.gif" height="500" width="auto" ><br>
 
 
 ## 💻 Instalação
