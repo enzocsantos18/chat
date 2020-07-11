@@ -7,24 +7,37 @@
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet">
 </head>
 <body>
   <form id="chat">
-    <input type="text" name="username" placeholder="Digite seu usuário">
-    <div class="messages"></div>
-    <input type="text" name="message" placeholder="Digite sua Mensagem">
-    <button type="submit">Enviar</button>
+    <div id="messages" class="messages"></div>
+    <div class="sendContainer">
+      <input type="text" id="messageInput" name="message" placeholder="Digite sua Mensagem">
+      <button type="submit"><span class="material-icons">
+        send
+        </span></button>
+
+    </div>
   </form>
   <script type="text/javascript">
+    const nome = prompt("Digite su nome de usuário");
     var socket = io('http://localhost:3333')
+
+    window.onload= scroll;
     
+    function scroll () {
+     var objDiv = document.getElementById("messages");
+     objDiv.scrollTop = objDiv.scrollHeight;
+    }
 
     function renderMessage(message){
-      $('.messages').append('<div class="message"><strong>'+ message.author +'</strong>: '+ message.message+' </div>')
+      $('.messages').append(`<div class="message"><div><strong>${message.author}</strong></div><div>${message.message}</p></div>`)
+      scroll()
     }
 
     socket.on('receivedMessage', function(message){
-      console.log(message)
       renderMessage(message);
     })
 
@@ -33,22 +46,24 @@
       for (message of messages){
         renderMessage(message);
 
+
       }
     })
-
+  
+    
     $('#chat').submit(function(e){
       e.preventDefault();
-
-      var author = $('input[name=username]').val()
+      
       var message = $('input[name=message]').val()
-
-      if(author.length && message.length){
+      
+      if( message.length){
         var messageObject = {
-          author: author,
+          author: nome,
           message: message
         }
-
+        
         renderMessage(messageObject)
+        $('input[name=message]').val('')
         socket.emit('sendMessage', messageObject)
       }
     })
